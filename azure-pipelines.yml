@@ -46,3 +46,20 @@ stages:
          command: custom
          verbose: false
          customCommand: 'run build'
+        
+        # Archive the files after build from dist folder
+      - task: ArchiveFiles@2
+        displayName: Zip Angular dist folder
+        inputs:
+          rootFolderOrFile: 'dist/groupdiscussion'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/groupdiscussion.zip'
+          replaceExistingArchive: true
+
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Angular app dist folder artifact
+        inputs:
+           targetPath: '$(Build.ArtifactStagingDirectory)'
+           artifactName: groupdiscussion
+           publishLocation: 'pipeline'
