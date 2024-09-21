@@ -1,0 +1,135 @@
+﻿<html lang="en">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<script src="https://kit.fontawesome.com/7d2b65abd1.js" crossorigin="anonymous"></script>
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-family: Calibri;
+        box-shadow: 0 1px 4px 0 #9b9b9b;
+        background-color: #fbf0d7;
+        font-size: :xx-large;
+    }
+
+    body {
+        font-size: 16px;
+    }
+
+    .w3-half img {
+        margin-bottom: -6px;
+        margin-top: 16px;
+        opacity: 0.8;
+        cursor: pointer
+    }
+
+    .w3-half img:hover {
+        /*opacity: 1
+        }*/
+</style>
+
+<body>
+
+
+    <!-- Top menu on small screens -->
+    <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+        <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+        <span>Company Name</span>
+
+    </header>
+
+    <img height="180" width="2200" src="./../assets/logo.png" />
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu"
+        id="myOverlay"></div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+        <!-- Header -->
+        <div class="w3-container" id="showcase">
+
+
+            <br>
+
+
+        </div>
+
+
+
+        <!-- Photo grid (modal) -->
+        <div *ngIf="showSharePanel"
+            style="align-items:right ;border:1px solid black;padding: 10px;background-color:##00d800">
+            <button type="button" (click)="ShowShreLink()">Share</button>
+            {{shareLink}}
+
+        </div>
+        <div *ngIf="showUploadDataPanel" class="w3-half">
+
+            <summary
+                style="align-items:right ;border:1px solid black;padding: 10px;background-color:rgb(223, 238, 223)">
+                Upload content
+                <span class="icon">👇</span>
+            </summary>
+
+          
+
+        </div>
+        <div>
+            <div *ngIf="showFAQ">
+                <app-meetings></app-meetings>
+            </div>
+            <div>
+                <app-chatrooms></app-chatrooms>
+            </div>
+
+
+            <br>
+            <div class="w3-row-padding">
+
+
+
+            </div>
+
+            <section class="two">
+            </section>
+        </div>
+
+
+
+
+        <!-- End page content -->
+    </div>
+
+
+    <script>
+        // Script to open and close sidebar
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+            document.getElementById("myOverlay").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("myOverlay").style.display = "none";
+        }
+
+        // Modal Image Gallery
+        function onClick(element) {
+            //document.getElementById("img01").src = element.src;
+            document.getElementById("modal01").style.display = "block";
+            var captionText = document.getElementById("caption");
+            captionText.innerHTML = element.alt;
+        }
+    </script>
+
+</body>
+
+</html>
