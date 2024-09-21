@@ -51,15 +51,15 @@ stages:
       - task: ArchiveFiles@2
         displayName: Zip Angular dist folder
         inputs:
-          rootFolderOrFile: 'dist/groupdiscussion'
+          rootFolderOrFile: 'dist/${{ parameters.AppName }}'
           includeRootFolder: false
           archiveType: 'zip'
-          archiveFile: '$(Build.ArtifactStagingDirectory)/groupdiscussion.zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.ProjectName }}.zip'
           replaceExistingArchive: true
 
       - task: PublishPipelineArtifact@1
         displayName: Publish Angular app dist folder artifact
         inputs:
            targetPath: '$(Build.ArtifactStagingDirectory)'
-           artifactName: groupdiscussion
+           artifactName: '${{ parameters.ProjectName }}'
            publishLocation: 'pipeline'
