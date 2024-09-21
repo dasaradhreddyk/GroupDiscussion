@@ -34,3 +34,15 @@ stages:
           npm install
           ng build
         displayName: 'npm install and build'
+        condition: 
+      - task: Npm@1
+        displayName: 'Install Angular app packages'
+        inputs:
+         command: 'ci'
+      
+      - task: Npm@1
+        displayName: Build the app
+        inputs:
+         command: custom
+         verbose: false
+         customCommand: 'run build'
