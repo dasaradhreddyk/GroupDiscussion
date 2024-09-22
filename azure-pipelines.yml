@@ -47,18 +47,10 @@ stages:
          verbose: false
          customCommand: 'run build'
          
-      - task: ArchiveFiles@2
-        inputs:
-          rootFolderOrFile: '$(Build.BinariesDirectory)'
-          includeRootFolder: true
-          archiveType: 'zip'
-          archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-          replaceExistingArchive: true
-  
-
-      - task: PublishPipelineArtifact@1
-        displayName: Publish Angular app dist folder artifact
-        inputs:
-           targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)'
-          # artifactName: 'GroupDiscussion'
-           publishLocation: 'pipeline'
+      - task: CopyPublishBuildArtifacts@1  
+        displayName: 'Copy Publish Artifact: angular-web-app'  
+        inputs:  
+          CopyRoot: /dist  
+          Contents: '**'  
+          ArtifactName: angular-web-app 
+          ArtifactType: Container
