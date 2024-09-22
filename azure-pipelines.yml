@@ -59,6 +59,6 @@ stages:
       - task: PublishPipelineArtifact@1
         displayName: Publish Angular app dist folder artifact
         inputs:
-           targetPath: '$(Build.ArtifactStagingDirectory)'
+           targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)'
           # artifactName: 'GroupDiscussion'
            publishLocation: 'pipeline'
