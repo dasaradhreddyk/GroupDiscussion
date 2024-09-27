@@ -1,61 +1,35 @@
-# Node.js with Angular
-# Build a Node.js project that uses Angular.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
-- main
+- master
 
-variables:
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'Microsoft Internal Subscription 1(5648d12a-ba49-4789-8793-6f7cc54e1556)'
-  
-  # Environment name
-  environmentName: 'demoangularmimott'
+pool:
+  vmImage: ubuntu-latest
 
-  # Web app name
-  webAppName: 'demoangularmimott'
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
 
-stages:
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: BuildJob
-    pool:
-      vmImage: 'ubuntu-20.04'
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '20.x'
-        displayName: 'Install Node.js'
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
 
-      - script: |
-          npm install -g @angular/cli
-          npm install
-          ng build
-        displayName: 'npm install and build'
-        condition: 
-      - task: Npm@1
-        displayName: 'Install Angular app packages'
-        inputs:
-         command: 'ci'
-         
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'drop'
-          publishLocation: 'Container'
-           
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: '$(Pipeline.Workspace)'
-          artifact: 'drop'
-          publishLocation: 'pipeline'
-      - task: ArchiveFiles@2
-        inputs:
-          rootFolderOrFile: '$(Build.BinariesDirectory)'
-          includeRootFolder: true
-          archiveType: 'zip'
-          archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-          replaceExistingArchive: true
-        
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'dist' # Assuming 'dist' is your build output folder
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip' # Define the path for the zip file
+    replaceExistingArchive: true
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.ArtifactStagingDirectory)'
+    Contents: '**/*.zip' # Assuming you want to copy all zip files
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/drop'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/drop'
+    ArtifactName: 'drop'
